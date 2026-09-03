@@ -1,12 +1,106 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — AnimeFinds</title>
+  <meta name="description" content="What AnimeFinds is, how it works, and a place to leave feedback." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <h1>Coming Soon</h1>
-    <p>Something exciting is on the way. Stay tuned!</p>
+  <header class="site-header">
+    <div class="shell">
+      <a class="wordmark" href="index.html">Anime<span>Finds</span></a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="about.html" aria-current="page">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <div class="page-header">
+      <h1>About this project</h1>
+    </div>
+
+    <div class="about-content">
+      <p>
+        AnimeFinds is a small, independent project built to make it easier to find something
+        new to watch — either by starting from a show you already like, or by narrowing things
+        down with filters like genre, theme and episode count.
+      </p>
+
+      <h2>How it works</h2>
+      <p>
+        All anime data comes from the <a href="https://anilist.co" target="_blank" rel="noopener noreferrer">AniList</a>
+        GraphQL API. "Find similar shows" uses AniList's community-submitted recommendations for
+        a given title. "Browse by filter" queries AniList directly for shows matching your
+        selections. AnimeFinds doesn't store any watch history or accounts — it's just a search
+        tool.
+      </p>
+
+      <h2>Who built this</h2>
+      <p>
+        AnimeFinds was built by one person as a side project, largely out of wanting a faster
+        way to answer "what should I watch next?" It isn't affiliated with AniList or any
+        studio, publisher, or streaming service.
+      </p>
+    </div>
+
+    <section class="feedback-section">
+      <h2>Feedback</h2>
+      <p class="feedback-intro">
+        Found a bug, have a tip, or think something could work better? Let me know below.
+      </p>
+
+      <form id="feedback-form">
+        <div class="field-full">
+          <label for="feedback-email">Your email (optional)</label>
+          <input type="email" id="feedback-email" name="email" placeholder="you@example.com" />
+        </div>
+
+        <div class="field-full">
+          <label for="feedback-message">Message</label>
+          <textarea
+            id="feedback-message"
+            name="message"
+            required
+            placeholder="Tips, criticism, bug reports — all welcome."
+          ></textarea>
+        </div>
+
+        <!--
+          reCAPTCHA v2 checkbox widget.
+          Replace REPLACE_WITH_YOUR_SITE_KEY with the site key from
+          https://www.google.com/recaptcha/admin (see js/feedback.js for
+          the matching Formspree setup step).
+        -->
+        <div class="g-recaptcha" data-sitekey="REPLACE_WITH_YOUR_SITE_KEY"></div>
+
+        <button type="submit" class="btn" id="feedback-submit-btn">Send feedback</button>
+        <p class="form-note">
+          Submissions go through <a href="https://formspree.io" target="_blank" rel="noopener noreferrer">Formspree</a>.
+          No account or login required.
+        </p>
+        <p class="form-status" id="form-status" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <p>AnimeFinds is an independent fan project and isn't affiliated with AniList.</p>
+      <p>Anime data courtesy of the <a href="https://anilist.co" target="_blank" rel="noopener noreferrer">AniList</a> API.</p>
+    </div>
+  </footer>
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="js/feedback.js"></script>
 </body>
 </html>
