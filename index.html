@@ -1,12 +1,163 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AnimeFinds — find your next anime</title>
+  <meta
+    name="description"
+    content="Find your next anime by searching for a title you already like, or by filtering on genre, theme, episode count and more, powered by AniList."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <h1>Coming Soon</h1>
-    <p>Something exciting is on the way. Stay tuned!</p>
+  <header class="site-header">
+    <div class="shell">
+      <a class="wordmark" href="index.html">Anime<span>Finds</span></a>
+      <nav class="site-nav">
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <h1>Find your next anime.</h1>
+      <p class="lede">
+        Search for a show you already like and get recommendations for what to watch next,
+        or filter by genre, theme, episode count and more.
+      </p>
+
+      <div class="mode-tabs" role="tablist" aria-label="Search mode">
+        <button class="mode-tab" data-mode="similar" role="tab" aria-selected="true">
+          Find similar shows
+        </button>
+        <button class="mode-tab" data-mode="filter" role="tab" aria-selected="false">
+          Browse by filter
+        </button>
+      </div>
+
+      <div class="mode-panel" id="panel-similar">
+        <div class="title-search">
+          <label class="field-label" for="title-search-input">Show title</label>
+          <div class="title-search-row">
+            <input
+              type="text"
+              id="title-search-input"
+              placeholder="Start typing a title…"
+              autocomplete="off"
+              aria-autocomplete="list"
+              aria-controls="autocomplete-list"
+            />
+            <button class="btn" id="find-similar-btn" disabled>Find similar shows</button>
+          </div>
+          <div class="autocomplete-list" id="autocomplete-list" role="listbox" hidden></div>
+          <div class="selected-title-chip" id="selected-title-chip">
+            <span>Selected: <strong id="selected-title-label"></strong></span>
+            <button type="button" id="clear-selection-btn">clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mode-panel" id="panel-filter" hidden>
+        <form id="filter-form">
+          <div class="filter-grid">
+            <div class="field-group">
+              <label class="field-label">Genre</label>
+              <div class="chip-set" id="genre-chips">
+                <button type="button" class="chip-toggle" data-value="Action" aria-pressed="false">Action</button>
+                <button type="button" class="chip-toggle" data-value="Adventure" aria-pressed="false">Adventure</button>
+                <button type="button" class="chip-toggle" data-value="Comedy" aria-pressed="false">Comedy</button>
+                <button type="button" class="chip-toggle" data-value="Drama" aria-pressed="false">Drama</button>
+                <button type="button" class="chip-toggle" data-value="Fantasy" aria-pressed="false">Fantasy</button>
+                <button type="button" class="chip-toggle" data-value="Horror" aria-pressed="false">Horror</button>
+                <button type="button" class="chip-toggle" data-value="Mecha" aria-pressed="false">Mecha</button>
+                <button type="button" class="chip-toggle" data-value="Mystery" aria-pressed="false">Mystery</button>
+                <button type="button" class="chip-toggle" data-value="Psychological" aria-pressed="false">Psychological</button>
+                <button type="button" class="chip-toggle" data-value="Romance" aria-pressed="false">Romance</button>
+                <button type="button" class="chip-toggle" data-value="Sci-Fi" aria-pressed="false">Sci-Fi</button>
+                <button type="button" class="chip-toggle" data-value="Slice of Life" aria-pressed="false">Slice of Life</button>
+                <button type="button" class="chip-toggle" data-value="Sports" aria-pressed="false">Sports</button>
+                <button type="button" class="chip-toggle" data-value="Supernatural" aria-pressed="false">Supernatural</button>
+                <button type="button" class="chip-toggle" data-value="Thriller" aria-pressed="false">Thriller</button>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Theme</label>
+              <div class="chip-set" id="theme-chips">
+                <button type="button" class="chip-toggle" data-value="Isekai" aria-pressed="false">Isekai</button>
+                <button type="button" class="chip-toggle" data-value="School" aria-pressed="false">School</button>
+                <button type="button" class="chip-toggle" data-value="Military" aria-pressed="false">Military</button>
+                <button type="button" class="chip-toggle" data-value="Historical" aria-pressed="false">Historical</button>
+                <button type="button" class="chip-toggle" data-value="Time Travel" aria-pressed="false">Time Travel</button>
+                <button type="button" class="chip-toggle" data-value="Video Games" aria-pressed="false">Video Games</button>
+                <button type="button" class="chip-toggle" data-value="Music" aria-pressed="false">Music</button>
+                <button type="button" class="chip-toggle" data-value="Post-Apocalyptic" aria-pressed="false">Post-Apocalyptic</button>
+                <button type="button" class="chip-toggle" data-value="Detective" aria-pressed="false">Detective</button>
+                <button type="button" class="chip-toggle" data-value="Vampire" aria-pressed="false">Vampire</button>
+                <button type="button" class="chip-toggle" data-value="Workplace" aria-pressed="false">Workplace</button>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="demographic-select">Demographic</label>
+              <select id="demographic-select">
+                <option value="">Any</option>
+                <option value="Shounen">Shounen</option>
+                <option value="Shoujo">Shoujo</option>
+                <option value="Seinen">Seinen</option>
+                <option value="Josei">Josei</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="year-input">Release year</label>
+              <input type="number" id="year-input" placeholder="e.g. 2019" min="1960" max="2030" />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Episode count</label>
+              <div class="range-row">
+                <input type="number" id="ep-min-input" placeholder="Min" min="1" />
+                <span>–</span>
+                <input type="number" id="ep-max-input" placeholder="Max" min="1" />
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-actions">
+            <button type="submit" class="btn">Search</button>
+            <button type="button" class="btn btn-ghost" id="filter-reset-btn">Reset filters</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="results-section" id="results-section" hidden>
+      <div class="results-heading">
+        <h2 id="results-heading-text">Results</h2>
+        <span class="results-count" id="results-count"></span>
+      </div>
+      <div class="results-grid" id="results-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <p>AnimeFinds is an independent fan project and isn't affiliated with AniList.</p>
+      <p>Anime data courtesy of the <a href="https://anilist.co" target="_blank" rel="noopener noreferrer">AniList</a> API.</p>
+    </div>
+  </footer>
+
+  <script src="js/anilist.js"></script>
+  <script src="js/search.js"></script>
 </body>
 </html>
