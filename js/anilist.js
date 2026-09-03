@@ -21,12 +21,20 @@ async function anilistQuery(query, variables) {
   if (res.status === 429) {
     throw new Error("RATE_LIMITED");
   }
-  if (!res.ok) {
-    throw new Error("REQUEST_FAILED");
-  }
 
-  const json = await res.json();
-  if (json.errors && json.errors.length) {
+  // AniList returns a JSON body with details even on a non-200 response,
+  // so read it before deciding how to fail — that detail is far more
+  // useful than a bare status code when something like a bad filter
+  // combination gets rejected server-side.
+  const json = await res.json().catch(() => null);
+
+  if (!res.ok) {
+    const detail = json && json.errors && json.errors[0] ? json.errors[0].message : null;
+    console.error("AniList request failed:", res.status, detail, { query, variables });
+    throw new Error(detail || `AniList returned an error (HTTP ${res.status}).`);
+  }
+  if (json && json.errors && json.errors.length) {
+    console.error("AniList GraphQL error:", json.errors[0].message, { query, variables });
     throw new Error(json.errors[0].message || "GRAPHQL_ERROR");
   }
   return json.data;
@@ -123,6 +131,17 @@ const FILTER_MEDIA_QUERY = `
   }
 `;
 
+/**
+ * Removes null/undefined entries from an object. Used so that unset,
+ * optional filters (e.g. episode bounds the person left blank) are left
+ * out of the GraphQL variables entirely, rather than sent as an explicit
+ * null — the standard, safest way to represent "no filter" for an
+ * optional GraphQL argument.
+ */
+function withoutNulls(obj) {
+  return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== null && v !== undefined));
+}
+
 async function searchTitles(searchTerm) {
   const data = await anilistQuery(SEARCH_TITLES_QUERY, { search: searchTerm });
   return data.Page.media;
@@ -143,7 +162,7 @@ async function fetchFilteredMedia({ genres, themes, demographic, year, epMin, ep
     epGreater: epMin ? epMin - 1 : null,
     epLesser: epMax ? epMax + 1 : null,
   };
-  const data = await anilistQuery(FILTER_MEDIA_QUERY, variables);
+  const data = await anilistQuery(FILTER_MEDIA_QUERY, withoutNulls(variables));
   let results = data.Page.media;
 
   // Strict AND across all selected genres.
