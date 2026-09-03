@@ -89,6 +89,12 @@
     if (err && err.message === "RATE_LIMITED") {
       return "AniList is rate-limiting requests right now — wait a few seconds and try again.";
     }
+    // anilistQuery() now throws with AniList's own error message when it
+    // has one (validation errors, GraphQL errors, etc.) — show it directly
+    // instead of hiding it behind a generic message.
+    if (err && err.message && err.message !== "REQUEST_FAILED") {
+      return err.message;
+    }
     return "Couldn't reach AniList. Check your connection and try again.";
   }
 
