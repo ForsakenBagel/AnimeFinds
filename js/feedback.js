@@ -15,7 +15,7 @@
  *   3. In your Formspree form settings, enable reCAPTCHA verification.
  */
 
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xbgjyndj";
 
 (() => {
   "use strict";
