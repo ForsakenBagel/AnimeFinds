@@ -76,12 +76,12 @@
         </div>
 
         <!--
-          reCAPTCHA v2 checkbox widget.
+          Cloudflare Turnstile widget.
           Replace REPLACE_WITH_YOUR_SITE_KEY with the site key from
-          https://www.google.com/recaptcha/admin (see js/feedback.js for
-          the matching Formspree setup step).
+          https://dash.cloudflare.com/?to=/:account/turnstile (see
+          js/feedback.js for the matching Formspree setup step).
         -->
-        <div class="g-recaptcha" data-sitekey="REPLACE_WITH_YOUR_SITE_KEY"></div>
+        <div class="cf-turnstile" data-sitekey="REPLACE_WITH_YOUR_SITE_KEY"></div>
 
         <button type="submit" class="btn" id="feedback-submit-btn">Send feedback</button>
         <p class="form-note">
@@ -100,7 +100,7 @@
     </div>
   </footer>
 
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script src="js/feedback.js"></script>
 </body>
 </html>
