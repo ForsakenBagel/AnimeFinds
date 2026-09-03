@@ -675,7 +675,7 @@ textarea:focus {
   font-family: var(--font-body);
 }
 
-.g-recaptcha {
+.cf-turnstile {
   margin: 4px 0 18px;
 }
 
