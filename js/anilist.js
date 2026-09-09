@@ -3,12 +3,36 @@
  * Thin wrapper around AniList's public GraphQL API.
  * No auth required for these read-only queries. AniList enforces a
  * per-IP rate limit, so callers should debounce/throttle requests
- * (see the debounce() helper below, used by the autocomplete field).
+ * (see the debounce() helper below, used by the autocomplete field)
+ * and results are cached client-side (see queryCache below) so that
+ * repeating the same search or filter doesn't hit the API again.
  */
 
 const ANILIST_ENDPOINT = "https://graphql.anilist.co";
 
+/**
+ * In-memory cache for AniList responses, keyed by the exact query +
+ * variables. Anime metadata doesn't change minute-to-minute, so it's
+ * safe to reuse a recent result rather than re-fetching — this cuts
+ * down on repeat requests (e.g. re-typing an autocomplete search, or
+ * two people filtering on the same genre/year) without adding any
+ * real staleness risk. Cache lives only for the page session; it
+ * resets on reload since there's no backend to persist it in.
+ */
+const queryCache = new Map();
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+function cacheKey(query, variables) {
+  return query + JSON.stringify(variables || {});
+}
+
 async function anilistQuery(query, variables) {
+  const key = cacheKey(query, variables);
+  const cached = queryCache.get(key);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
+    return cached.data;
+  }
+
   const res = await fetch(ANILIST_ENDPOINT, {
     method: "POST",
     headers: {
@@ -37,6 +61,10 @@ async function anilistQuery(query, variables) {
     console.error("AniList GraphQL error:", json.errors[0].message, { query, variables });
     throw new Error(json.errors[0].message || "GRAPHQL_ERROR");
   }
+
+  // Only cache successful responses — never cache an error, so a
+  // transient failure doesn't get "stuck" for the TTL window.
+  queryCache.set(key, { data: json.data, timestamp: Date.now() });
   return json.data;
 }
 
