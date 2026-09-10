@@ -42,6 +42,8 @@
         GraphQL API. "Find similar shows" uses AniList's community-submitted recommendations for
         a given title. "Browse by filter" queries AniList directly for shows matching your
         selections. AnimeFinds is just a search tool — no accounts, no watchlists, nothing to sign up for.
+
+        To reduce redundant calls to the AniList API, AnimeFinds uses caching for repeated queries, as well as a debounce on the autocomplete search.
       </p>
 
       <h2>Who built this</h2>
